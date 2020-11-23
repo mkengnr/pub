@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>시헌이 히라가나 연습</title>
+    <style>
+        body {text-align: center;}
+        #word {font-size: 400px;}
+        #han {color: blue; font-size: 200px;}
+    </style>
+</head>
+<body>
+    <div><span id="word"></span><span id="han"></span></div>
+    <div id="cnt"></div>
+    <button id="btnStart">START</button>
+    <audio id="audioNext" src="https://freesound.org/data/previews/180/180821_118393-lq.mp3"></audio>
+
+    <script>
+        //글자 영역
+        let areaWord = null;
+        //한글 영역
+        let areaHan = null;
+        //시작 버튼
+        let btnStart = null;
+        //audio
+        let audioNext = null;
+        //인터벌
+        //let interval = null;
+        //문제목록
+        let examList = null;
+        //카운트다운 시간 (sec)
+        const countdownSec = 5;
+        //정답 보여주기 전 대기 시간 (ms)
+        const idleTime = 3*1000;
+        //정답 보여준 후 대기 시간 (ms)
+        const idleTime2 = 1.5 * 1000;
+        
+        document.addEventListener("DOMContentLoaded", function(){
+            init();
+            countdown(5);
+        });
+
+        function init(){
+            examList = JSON.parse(JSON.stringify(wordArr));
+            areaWord = document.querySelector('#word');
+            areaHan = document.querySelector('#han');
+            btnStart = document.querySelector('#btnStart');
+            audioNext = document.querySelector('#audioNext');
+            btnStart.style.display = 'none';
+            btnStart.onclick = ()=>{init(); countdown(countdownSec);};
+        }
+        
+        function countdown(num){
+            //audioNext.play();
+            if(num <= 0 ) {start(); return;}
+            areaWord.innerText = num--;
+            setTimeout(()=>countdown(num), 1*1000);
+        }
+        
+        function start(){
+            //interval = setInterval(viewWord, 3*1000);
+            viewWord();
+        }
+        
+        function viewWord(){            
+            cnt.innerText = examList.length + " / " + wordArr.length;
+            
+            if(examList.length == 0 ) {
+                areaWord.innerText = '끝~';
+                areaHan.innerText = ' ';
+                btnStart.style.display = 'inline-block';
+                return;
+            }
+            let idx = getRandomIntInclusive(0, examList.length-1);
+            
+            console.log('>>>viewWord:' + idx + ',' + examList.length);
+            areaHan.style.visibility = 'hidden';
+            areaWord.innerText = examList[idx].word;
+            areaHan.innerText = examList[idx].han;
+            
+            setTimeout(()=>viewHan(), idleTime);
+            examList.splice(idx, 1);
+        }
+        
+        function viewHan(){
+            areaHan.style.visibility = 'visible';
+            setTimeout(()=>viewWord(), idleTime2);
+        }
+        
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min; //최댓값도 포함, 최솟값도 포함
+        }
+        
+        const wordArr = [
+        {word:'あ', sori:'a', han:'아'},
+        {word:'い', sori:'i', han:'이'},
+        {word:'う', sori:'u', han:'우'},
+        {word:'え', sori:'e', han:'에'},
+        {word:'お', sori:'o', han:'오'},		
+        {word:'か', sori:'ka', han:'카'},
+        {word:'き', sori:'ki', han:'키'},
+        {word:'く', sori:'ku', han:'쿠'},
+        {word:'け', sori:'ke', han:'케'},
+        {word:'こ', sori:'ko', han:'코'},
+        {word:'さ', sori:'sa', han:'사'},
+        {word:'し', sori:'shi', han:'시'},
+        {word:'す', sori:'su', han:'스'},
+        {word:'せ', sori:'se', han:'세'},
+        {word:'そ', sori:'so', han:'소'},
+        {word:'た', sori:'ta', han:'타'},
+        {word:'ち', sori:'chi', han:'치'},
+        {word:'つ', sori:'tsu', han:'츠'},
+        {word:'て', sori:'te', han:'테'},	
+        {word:'と', sori:'to', han:'토'},
+        {word:'な', sori:'na', han:'나'},	
+        {word:'に', sori:'ni', han:'니'},	
+        {word:'ぬ', sori:'nu', han:'누'},	
+        {word:'ね', sori:'ne', han:'네'},	
+        {word:'の', sori:'no', han:'노'},
+        {word:'は', sori:'ha', han:'하'},	
+        {word:'ひ', sori:'hi', han:'히'},	
+        {word:'ふ', sori:'fu', han:'후'},	
+        {word:'へ', sori:'he', han:'헤'},	
+        {word:'ほ', sori:'ho', han:'호'},
+        {word:'ま', sori:'ma', han:'마'},	
+        {word:'み', sori:'mi', han:'미'},	
+        {word:'む', sori:'mu', han:'무'},	
+        {word:'め', sori:'me', han:'메'},	
+        {word:'も', sori:'mo', han:'모'},
+        {word:'や', sori:'ya', han:'야'},		
+        {word:'ゆ', sori:'yu', han:'유'},		
+        {word:'よ', sori:'yo', han:'요'},			
+        {word:'ら', sori:'ra', han:'라'},	
+        {word:'り', sori:'ri', han:'리'},	
+        {word:'る', sori:'ru', han:'루'},	
+        {word:'れ', sori:'re', han:'레'},	
+        {word:'ろ', sori:'ro', han:'로'},
+        {word:'わ', sori:'wa', han:'와'},
+        {word:'を', sori:'wo', han:'오'},			
+        {word:'ん', sori:'n', han:'-ㄴ'}
+        ];	
+    </script>
+</body>
+</html>

@@ -9,8 +9,8 @@
         input {text-align: center;}
         div.button {width: 50%; margin: auto;}
         button, select {font-size: 2rem;}
-        #word {font-size: 15rem;}
-        #han {color: blue; font-size: 7rem;}
+        #word {font-size: 14rem;}
+        #han {color: blue; font-size: 5rem;}
     </style>
 </head>
 <body>
@@ -107,7 +107,7 @@
             if(examList.length == 0 ) {
                 areaWord.innerText = '끝';
                 areaHan.innerText = ' ';
-                areaStatus.innerText = succCnt + '맞고' + failCnt + '틀렸어요';
+                areaStatus.innerHtml = succCnt + '맞고' + failCnt + '틀렸어요<br>';
                 btnStart.style.display = 'inline-block';
                 for(let i=0; i<failCnt; i++){
                     areaStatus.innerText += ' ' + wrongList[i];
@@ -150,7 +150,7 @@
                 succCnt++;
             } else {
                 failCnt++;
-                wrongList[failCnt] = areaWord.innerText;
+                wrongList[failCnt-1] = areaWord.innerText;
             }            
             refreshStatus();
         }
